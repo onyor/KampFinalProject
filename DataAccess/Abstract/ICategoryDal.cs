@@ -6,9 +6,8 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    // Code Refactoring
-    public interface IProductDal:IEntityRepository<Product>
+    public interface ICategoryDal:IEntityRepository<Category>
     {
-       
+
     }
 }
