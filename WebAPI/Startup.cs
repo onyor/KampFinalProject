@@ -44,8 +44,8 @@ namespace WebAPI
             services.AddControllers();
             // Singleton tü bellekte bir tane product manager üretiyor.
             // Singleton içerisinde bir data tutmuyorsak kullanabiliriz.
-            services.AddSingleton<IProductService, ProductManager>();
-            services.AddSingleton<IProductDal, EfProductDal>();
+            //services.AddSingleton<IProductService, ProductManager>();
+            //services.AddSingleton<IProductDal, EfProductDal>();
 
         }
 
