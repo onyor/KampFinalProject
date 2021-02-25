@@ -36,6 +36,12 @@ namespace Business.DependencyResolvers.Autofac
 
             // Autofact bize aynı zamanda interceptor özelliği veriyor.   
             // Autofac bizim bütün sınıflarımız için ilk önce bu kod satırlarını çalıştırıyor. (Bizim Aspect'imiz(Attributes) varmı?)
+
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<CategoryManager>().SingleInstance();
+
+
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             // Implemente edilmiş interface'leri bul onlara onlar için AspectInterceptorSelecter'ı çağır
