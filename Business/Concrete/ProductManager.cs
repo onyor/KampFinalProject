@@ -17,7 +17,7 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        IProductDal _productDal;
+        private IProductDal _productDal;
 
         public ProductManager(IProductDal productDal)
         {
@@ -32,6 +32,20 @@ namespace Business.Concrete
             // Buisness codes
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
+        }
+
+        [ValidationAspect(typeof(ProductValidator))]
+        public IResult Update(Product product)
+        {
+             _productDal.Update(product);
+             return new SuccessResult("Güncelleme başarılı");
+        }
+
+        public IResult Delete(int id)
+        {
+            Product product=new Product(){ProductID = id};
+            _productDal.Delete(product);
+            return new SuccessResult("Silme işlemi başarılı");
         }
 
         public IDataResult<List<Product>> GetAll()
@@ -65,7 +79,7 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour==11)
             {
-                return new ErrorDataResults<List<ProductDetailDto>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
             }
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(), Messages.ProductsListed);
         }

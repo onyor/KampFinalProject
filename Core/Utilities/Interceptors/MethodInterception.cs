@@ -3,6 +3,8 @@ using System;
 
 namespace Core.Utilities.Interceptors
 {
+    // Burası bizim bütün methodlarımızın çatısı
+    // İş katmanındaki kullandığımız bütün method'lar buradan geçecek.
     public abstract class MethodInterception : MethodInterceptionBaseAttribute
     {
         protected virtual void OnBefore(IInvocation invocation) { }

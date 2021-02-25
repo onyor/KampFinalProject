@@ -22,14 +22,23 @@ namespace Business.DependencyResolvers.Autofac
              * IProductService istenilirse ona -> ProductManager verir.
              */
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
-
+            
             /**
              * services.AddSingleton<IProductDal, EfProductDal>();
              */
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
 
+
+            builder.RegisterType<OrderManager>().As<IOrderService>().SingleInstance();
+            builder.RegisterType<EfOrderDal>().As<IOrderDal>().SingleInstance();
+
+
+
+            // Autofact bize aynı zamanda interceptor özelliği veriyor.   
+            // Autofac bizim bütün sınıflarımız için ilk önce bu kod satırlarını çalıştırıyor. (Bizim Aspect'imiz(Attributes) varmı?)
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
+            // Implemente edilmiş interface'leri bul onlara onlar için AspectInterceptorSelecter'ı çağır
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
                 .EnableInterfaceInterceptors(new ProxyGenerationOptions()
                 {

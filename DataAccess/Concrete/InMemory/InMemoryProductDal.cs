@@ -48,6 +48,7 @@ namespace DataAccess.Concrete.InMemory
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;
         }
+        
         public List<Product> GetAllByCategory(int categoryId)
         {
            return _products.Where(p => p.CategoryID == categoryId).ToList();
