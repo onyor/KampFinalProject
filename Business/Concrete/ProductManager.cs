@@ -60,6 +60,20 @@ namespace Business.Concrete
             //return new SuccessResult(Messages.ProductAdded);
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
+        public IResult Update(Product product)
+        {
+             _productDal.Update(product);
+             return new SuccessResult("Güncelleme başarılı");
+        }
+
+        public IResult Delete(int id)
+        {
+            Product product=new Product(){ProductID = id};
+            _productDal.Delete(product);
+            return new SuccessResult("Silme işlemi başarılı");
+        }
+
         public IDataResult<List<Product>> GetAll()
         {
             //İş kodları

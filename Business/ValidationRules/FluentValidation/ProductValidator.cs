@@ -22,7 +22,7 @@ namespace Business.ValidationRules.FluentValidation
              * Olmayan bir şeyleri ekleyelim
              * **** Ürünlerimizin ismi A ile başlamalı *****
              */
-            RuleFor(p => p.ProductName).Must(StartwithA).WithMessage("Ürünler A harfi ile başlamalı!");
+            //RuleFor(p => p.ProductName).Must(StartwithA).WithMessage("Ürünler A harfi ile başlamalı!");
         }
 
         // True dönerse kurala uygun, false dönerse patlar!!
