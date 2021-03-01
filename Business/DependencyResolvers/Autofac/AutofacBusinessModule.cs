@@ -30,7 +30,7 @@ namespace Business.DependencyResolvers.Autofac
 
 
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
-            builder.RegisterType<EfCategoryDal>().As<CategoryManager>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
 
 
 

@@ -13,4 +13,9 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\Security\Encryption\" />
+    <Folder Include="Utilities\Security\JWT\" />
+  </ItemGroup>
+
 </Project>
