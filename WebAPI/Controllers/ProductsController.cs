@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         // Loosely coupled
         // naming convertion
         // IoC Container -- Inversion of Control
-        private IProductService _productService;
+        private readonly IProductService _productService;
         public ProductsController(IProductService productService)
         {
             _productService = productService;

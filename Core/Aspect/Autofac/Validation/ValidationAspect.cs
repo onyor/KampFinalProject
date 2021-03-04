@@ -11,7 +11,7 @@ namespace Core.Aspect.Autofac.Validation
 {
     public class ValidationAspect : MethodInterception
     {
-        private Type _validatorType;
+        private readonly Type _validatorType;
         // Bize validatorType ver -> Attributeler bu yöntem ile ekleniyor.
         public ValidationAspect(Type validatorType)
         {

@@ -38,7 +38,7 @@ namespace Business.DependencyResolvers.Autofac
             // Autofac bizim bütün sınıflarımız için ilk önce bu kod satırlarını çalıştırıyor. (Bizim Aspect'imiz(Attributes) varmı?)
 
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
-            builder.RegisterType<EfCategoryDal>().As<CategoryManager>().SingleInstance();
+            builder.RegisterType<EfCategoryDal>().As<ICategoryDal>().SingleInstance();
 
 
 

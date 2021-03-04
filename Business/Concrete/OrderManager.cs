@@ -10,7 +10,7 @@ namespace Business.Concrete
 {
     public class OrderManager : IOrderService
     {
-        private IOrderDal _orderDal;
+        IOrderDal _orderDal;
 
         public OrderManager(IOrderDal orderDal)
         {

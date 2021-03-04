@@ -11,7 +11,7 @@ namespace Business.Concrete
     // Category'nin iş sınıflarını yazıyoruz.
     public class CategoryManager : ICategoryService
     {
-        ICategoryDal _categoryDal;
+        readonly ICategoryDal _categoryDal;
 
         public CategoryManager(ICategoryDal categoryDal)
         {
