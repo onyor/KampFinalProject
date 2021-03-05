@@ -6,7 +6,6 @@ using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Buisness;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
 using FluentValidation;
@@ -14,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Business.BuisnessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -29,6 +29,7 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        [SecuredOperation("product.add,admin")] // Buisness katmanına yazıyoruz.
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {

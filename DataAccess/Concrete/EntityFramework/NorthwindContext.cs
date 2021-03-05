@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Entities.Concrete;
 
 namespace DataAccess.Concrete
 {
@@ -17,5 +18,8 @@ namespace DataAccess.Concrete
         public DbSet<Category> categories { get; set; }
         public DbSet<Customer> customers { get; set; }
         public DbSet<Order> orders { get; set; }
+        public DbSet<OperationClaim> operationclaims { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<UserOperationClaim> useroperationclaims { get; set; }
     }
 }

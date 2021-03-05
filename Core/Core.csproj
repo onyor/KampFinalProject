@@ -10,12 +10,9 @@
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
     <PackageReference Include="FluentValidation" Version="9.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.11" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utilities\Security\Encryption\" />
-    <Folder Include="Utilities\Security\JWT\" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
 </Project>
