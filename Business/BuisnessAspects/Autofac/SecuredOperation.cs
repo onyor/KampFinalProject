@@ -8,7 +8,6 @@ using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Castle.DynamicProxy;
 
 namespace Business.BuisnessAspects.Autofac
 {
