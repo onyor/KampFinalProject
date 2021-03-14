@@ -1,4 +1,4 @@
-using Business.Abstract;
+ï»¿using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -14,6 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
 {
@@ -30,22 +35,44 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             /**
-             * AOP -> Örn; Biz bütün methodlarýmý loglamak istiyoruz. ILoggerService.Log() methodunu çaðýrýrýz. 
-             * Bunun yerine [LogAspect] --> AOP Yani bir methodun önünde veya hata verdiðinde çalýþan kod parçacýklarýný bir AOP mimarisi ile yazýyoruz.
-             * Bu methodu [Validate] -> Methodu doðrula.
-             * Ürün eklenirse [RemoveCache} -> Cacheden kaldýr.
+             * AOP -> Ã–rn; Biz bÃ¼tÃ¼n methodlarÃ½mÃ½ loglamak istiyoruz. ILoggerService.Log() methodunu Ã§aÃ°Ã½rÃ½rÃ½z. 
+             * Bunun yerine [LogAspect] --> AOP Yani bir methodun Ã¶nÃ¼nde veya hata verdiÃ°inde Ã§alÃ½Ã¾an kod parÃ§acÃ½klarÃ½nÃ½ bir AOP mimarisi ile yazÃ½yoruz.
+             * Bu methodu [Validate] -> Methodu doÃ°rula.
+             * ÃœrÃ¼n eklenirse [RemoveCache} -> Cacheden kaldÃ½r.
              * [Transaction} -> Hata olrusa geri al
-             * [Performance] -> Çalýþma süresi 5sn geçerse beni uyar.
+             * [Performance] -> Ã‡alÃ½Ã¾ma sÃ¼resi 5sn geÃ§erse beni uyar.
              * 
-             * Method'un üzerine yazarsanýz methoda uygular
-             * Class'ýn üzerine uygularsanýz tüm methodlara uygular.
+             * Method'un Ã¼zerine yazarsanÃ½z methoda uygular
+             * Class'Ã½n Ã¼zerine uygularsanÃ½z tÃ¼m methodlara uygular.
              */
             // Autofac, Ninject, CastleWindsor, StructureMap, LightInject, DryInject --> IoC Container
             services.AddControllers();
-            // Singleton tü bellekte bir tane product manager üretiyor.
-            // Singleton içerisinde bir data tutmuyorsak kullanabiliriz.
+            // Singleton tÃ¼ bellekte bir tane product manager Ã¼retiyor.
+            // Singleton iÃ§erisinde bir data tutmuyorsak kullanabiliriz.
             //services.AddSingleton<IProductService, ProductManager>();
             //services.AddSingleton<IProductDal, EfProductDal>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+            // Core.Utilities.Security.JWT
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            // Microsoft.AspNetCore.Authentication.JwtBearer in ManageNugetPackage
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                    };
+                });
 
         }
 
@@ -60,6 +87,10 @@ namespace WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // hangi yapÄ±larÄ±n sÄ±rasÄ±yla devreye gireceÄŸini kodluyoruz burada in Configure
+            // Middleware
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

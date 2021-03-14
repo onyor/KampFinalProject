@@ -8,7 +8,7 @@ using DataAccess.Abstract;
 
 namespace Business.Concrete
 {
-    public class UserManager: IUserService
+    public class UserManager : IUserService
     {
         private readonly IUserDal _userDal;
 
@@ -31,7 +31,12 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string email)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
+            var user = _userDal.Get(u => u.Email == email);
+
+            if (user != null)
+                return new SuccessDataResult<User>();
+            else
+                return null;
         }
     }
 }

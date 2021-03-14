@@ -8,16 +8,18 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Core.Extensions;
+using Core.Utilities.Results;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Utilities.Security.JWT
 {
     public class JwtHelper : ITokenHelper
+
     {
         // appsettings.json dosyasındaki verileri okumamıza yarar
         public IConfiguration Configuration { get; }
         // Okudugumuz bu verileri(degerleri) bir nesneye atmak icin bir nesne olusturuyoruz.
-        private TokenOptions _tokenOptions;
+        private readonly TokenOptions _tokenOptions;
         // AccessToken ne zaman gecersizlesicek.
         private DateTime _accessTokenExpiration;
 
@@ -29,7 +31,8 @@ namespace Core.Utilities.Security.JWT
             // Configurations' daki alanı bul(GetSection(hangi alan -> "TokenOptions")) ve bu degerli Get<TokenOptions> bu sınıfını kulllanarak  map'liyoruz.
             _tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
         }
-        public AccessToken CreateToken(User user, List<OperationClaim> operationClaims)
+        
+        public AccessToken CreateToken(User user, IDataResult<List<OperationClaim>> operationClaims)
         {
             // Bu token ne zaman bitecek.  _tokenOptions -> daki configuration'dan alıyor
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
@@ -38,7 +41,7 @@ namespace Core.Utilities.Security.JWT
             // Hangi anahtari ve algoritmai kullanacagiz 
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
             // Ve ortaya bir JWT uretiyoruz.(_tokenOptions, kullaiciBilgisi, bu adamin claim'leri neler.)  -- Bu bilgiler ile methoda ilerleyelim(below)
-            var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);
+            var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims.Data);
             // 
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var token = jwtSecurityTokenHandler.WriteToken(jwt);

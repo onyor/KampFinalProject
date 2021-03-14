@@ -14,11 +14,12 @@ namespace Business.BuisnessAspects.Autofac
     // For JWT 
     public class SecuredOperation : MethodInterception
     {
-        private string[] _roles;
+        private readonly string[] _roles;
         // Bu IHttpContextAccessor -> biz JWT' gondererek bir istek yapıyoruzya, buraya aynı anda binlerce kisi istek yapabilir
         // Her httprequest için bir _httpContextAccessor olusur(herkese bir tane thread olusturur).
         // using Microsoft.AspNetCore.Http installed by ManageNugetPackage
-        private IHttpContextAccessor _httpContextAccessor;
+        // _httpContextAccessor -> Aynen Configuration gibi ASP.NET Core abstraction dan gelir.
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         // Roller'i alıyoruz. (Attributes oldugu icin virgulle ayırarak yolluyoruz.)
         public SecuredOperation(string roles)
